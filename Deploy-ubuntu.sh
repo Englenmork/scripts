@@ -43,7 +43,6 @@ function Verif-System {
 # Mise à jours des paquets
 function Install-PaquetsEssentiels {
   apt update && apt upgrade -y
-  apt install -y chpasswd
   apt install -y openssh-server
   apt install -y cockpit
   apt install -y neofetch
@@ -204,8 +203,9 @@ if [ $install_docker = "y" ]
   tput setaf 7; echo "Installation de Docker..................................................................... OK"
   if [ $install_portainer = "y" ]
   then
-  tput setaf 6; echo "Installation de Portainer.................................................... E$  Install-Portainer
-  tput setaf 7; echo "Installation de Portainer.................................................... O$
+  tput setaf 6; echo "Installation de Portainer.................................................... En cours"
+  Install-Portainer
+  tput setaf 7; echo "Installation de Portainer.................................................... OK"
   fi
 fi
 
