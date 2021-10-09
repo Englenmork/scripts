@@ -52,6 +52,7 @@ function Install-PaquetsEssentiels {
   apt install -y fail2ban
   apt install -y neofetch
   apt install -y htop
+  apt install -y apt-transport-https
 }
 
 # Installation des dépendances et de docker
@@ -79,6 +80,16 @@ function Install-Lxd {
   apt-get -y install core
   snap install core
   snap install lxd
+}
+
+#Installation de Webmin
+function Install-Webmin {
+  echo "deb https://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+  apt install -y gnupg2
+  wget https://download.webmin.com/jcameron-key.asc
+  apt-key add jcameron-key.asc
+  apt update
+  apt install -y webmin
 }
 
 function Change-Password {
@@ -176,6 +187,13 @@ if [ $install_lxd = "y" ]
     tput setaf 3; echo ""
 fi
 echo ""
+
+tput setaf 6; read -p "Souhaitez vous installer Webmin ? (y/n)  " install_webmin
+if [ $install_webmin = "y" ]
+  then
+    tput setaf 3; echo ""
+fi
+echo ""
 echo ""
 tput setaf 7; echo "----------------------------------------------------------------------------------------------------"
 tput setaf 7; echo "                                           Début du script                                          "
@@ -208,8 +226,8 @@ if [ $install_docker = "y" ]
   tput setaf 7; echo "Installation de Docker..................................................................... OK"
   if [ $install_portainer = "y" ]
   then
-  tput setaf 6; echo "Installation de Portainer.................................................... E$  Install-Portainer
-  tput setaf 7; echo "Installation de Portainer.................................................... O$
+  tput setaf 6; echo "Installation de Portainer.................................................... Install-Portainer"
+  tput setaf 7; echo "Installation de Portainer.................................................... OK"
   fi
 fi
 
@@ -220,6 +238,14 @@ if [ $install_lxd = "y" ]
   tput setaf 6; echo "Installation de Lxd.................................................... En cours"
   Install-Lxd
   tput setaf 7; echo "Installation de Lxd.................................................... OK"
+fi
+echo ""
+echo ""
+if [ $install_webmin = "y" ]
+  then
+  tput setaf 6; echo "Installation de Webmin.................................................... En cours"
+  Install-Webmin
+  tput setaf 7; echo "Installation de Webmin.................................................... OK"
 fi
 echo ""
 echo ""
